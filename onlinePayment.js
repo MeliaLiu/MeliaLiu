@@ -10,7 +10,6 @@ function pay()
     btn_elem.disabled = true;
     
     var id_str = document.getElementById('id').innerText.split('#')[1];
-    // localStorage.setItem(id_str, true);
     saveToFirebase(id_str);
 }
 
@@ -28,10 +27,6 @@ function getURLParameter(sParam)
     }
 }
 
-function clearStorage()
-{
-    localStorage.clear();
-}
 
 function initializeWebPage()
 {
@@ -44,33 +39,34 @@ function initializeWebPage()
     var cost_elem = document.getElementById('cost');
     cost_elem.innerText = '¥ ' + cost_str;
 
-    var status = localStorage.getItem(id_str);
-    if (status != null)
-    {
-       pay();
-    }
+    check();
 }
 
 function saveToFirebase(id)
 {
-    var orderObject = {id: id};
 
-    firebase.database().ref('paid-order-ids').push().set(orderObject);
+    var elem = document.getElementById('cost');
 
+    firebase.database().ref(id).set({
+        status: true
+      });
 }
 
-function readFromFirebase(id)
+function check(id)
 {
-    const dbRef = firebase.database().ref();
-    dbRef.child("paid-order-ids").child(id).get().then((snapshot) => {
-        if (snapshot.exists()) {
-            return snapshot.val();
-        } else {
-            return null;
+    var id_str = document.getElementById('id').innerText.split('#')[1];
+    var ref = firebase.database().ref();
+
+    var status;
+
+    ref.once("value")
+    .then(function(snapshot) {
+        status = snapshot.hasChild(id_str);
+        if (status == true)
+        {
+            pay();
         }
     });
 }
-
-
 
 
