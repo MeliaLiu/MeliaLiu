@@ -73,10 +73,12 @@ function check(id)
     });
 }
 
-function encode(str)
+function encode(id_str, cost_str)
 {
-    var integer = parseInt(str, 10);
-    var code = Math.round(Math.log(integer+2001)*(integer+620));
+    var id = parseInt(id_str, 10);
+    var cost = parseInt(id_str, 10);
+    var x = id*cost + Math.round(2*Math.sqrt(cost+2001)+2*Math.sqrt(id+620));
+    var code = Math.round(Math.log(x+2001)*(x+620));
     var oxCode = code.toString(16);
 
     return oxCode;
