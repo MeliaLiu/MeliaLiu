@@ -4,7 +4,8 @@ function pay()
     success_elem.style.visibility = 'visible';
     var code_elem = document.getElementById('code');
     var id_str = getURLParameter('id');
-    code_elem.innerText = '验证码：'+ encode(id_str);
+    var cost_str = getURLParameter('cost');
+    code_elem.innerText = '验证码：'+ encode(id_str, cost_str);
     
 
     var amount_elem = document.getElementById('cost');
