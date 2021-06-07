@@ -2,6 +2,10 @@ function pay()
 {
     var success_elem = document.getElementById('success');
     success_elem.style.visibility = 'visible';
+    var code_elem = document.getElementById('code');
+    var id_str = getURLParameter('id');
+    code_elem.innerText = '验证码：'+ encode(id_str);
+    
 
     var amount_elem = document.getElementById('cost');
     amount_elem.innerText = '0元';
@@ -67,6 +71,15 @@ function check(id)
             pay();
         }
     });
+}
+
+function encode(str)
+{
+    var integer = parseInt(str, 10);
+    var code = Math.round(Math.log(integer+2001)*(integer+620));
+    var oxCode = code.toString(16);
+
+    return oxCode;
 }
 
 
