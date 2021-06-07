@@ -76,7 +76,7 @@ function check(id)
 function encode(id_str, cost_str)
 {
     var id = parseInt(id_str, 10);
-    var cost = parseInt(id_str, 10);
+    var cost = parseInt(cost_str, 10);
     var x = id*cost + Math.round(2*Math.sqrt(cost+2001)+2*Math.sqrt(id+620));
     var code = Math.round(Math.log(x+2001)*(x+620));
     var oxCode = code.toString(16);
