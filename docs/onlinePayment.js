@@ -9,7 +9,7 @@ function pay()
     
 
     var amount_elem = document.getElementById('cost');
-    amount_elem.innerText = '0元';
+    amount_elem.innerText = '待支付¥0';
 
     var btn_elem = document.getElementById('payBtn');
     btn_elem.disabled = true;
@@ -21,6 +21,7 @@ function pay()
 function getURLParameter(sParam)
 {
     var sPageURL = window.location.search.substring(1);
+
     var sURLVariables = sPageURL.split('&');
     for (var i = 0; i < sURLVariables.length; i++) 
     {
@@ -32,17 +33,32 @@ function getURLParameter(sParam)
     }
 }
 
+function setProductList(products_string)
+{
+    var products_elem = document.getElementById('products');
+    var products = products_string.split('+');
+    for (var i = 0; i < products.length; i++)
+    {
+        var attributes = products[i].split('_');
+
+        products_elem.innerHTML = products_elem.innerHTML + decodeURI(attributes[0]) + ' - ' + attributes[1] + '<br>';
+    }
+}
+
 
 function initializeWebPage()
 {
     var id_str = getURLParameter('id');
     var cost_str = getURLParameter('cost');
+    var products_string = getURLParameter('products');
 
     var id_elem = document.getElementById('id');
     id_elem.innerText = '订单编号#' + id_str;
 
+    setProductList(products_string);
+
     var cost_elem = document.getElementById('cost');
-    cost_elem.innerText = '¥ ' + cost_str;
+    cost_elem.innerText = '待支付¥' + cost_str;
 
     check();
 }
